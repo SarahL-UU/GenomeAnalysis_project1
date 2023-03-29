@@ -1,5 +1,5 @@
 # GenomeAnalysis_paper1
-Project for the course Genome Analysis (spring 2023) at Uppsala University.
+Project for the course Genome Analysis (spring 2023) at Uppsala University. The paper is **RNA-seq and Tn-seq reveal fitness determinants of vancomycin-resistant Enterococcus faecium during growth in human serum** by Zhang et al. BMC Genomics (2017) 18:893 DOI 10.1186/s12864-017-4299-9.
 
 ## Project plan 
 ### Overview of data
@@ -16,40 +16,28 @@ Aim: The aim of this project is to perform whole genom sequencing, RNA sequencin
 | E. faecium E745  | Human serum  | Tn-seq  | Illumina HiSeq 2500 50bp single end  |
 | E. faecium E745  | Heat-inactivated Human serum  | Tn-seq  | Illumina HiSeq 2500 50bp single end  |
 
-### Analyses and softwares
-| Analysis  | Software  | Estimated time  |
-| ------------- | ------------- | ------------- |
-| Quality check of Illumina data  | FastQC  | 2h  |
-| Trim Illumina reads  | Trimmomatic  | 4h  |
-| Quality check of Illumina data  | FastQC  | 2h  |
-| DNA assembly  | Canu  | 7h  |
-| DNA assembly  | Spades  | 4h  |
-| Assembly evaluation of Canu  | Quast  | 2h  |
-| Assembly evaluation of Spades  | Quast  | 2h  |
-| Annotation  | Prokka  | 2h  |
-| Alignment  | BWA  | 4h  |
-| Differential Expression  | Htseq  | 15h  |
-| Find plasmids in NCBI Genbank database | Blastn | 2h |
-| Essential genes, Tn-seq analysis | Transit | 6h |
-| SNP calling | BCFtools | 4h |
+### Analyses and softwares flowchart
+
+![Flowchart_project_2](https://user-images.githubusercontent.com/128709613/228543258-9349c894-632f-4e3e-b417-c4927819a662.png)
 
 ### Time plan and deadlines 
 2023-03-29: Project plan <br />
 2023-03-31: FastQC + Trim <br />
 2023-04-13: Assembly + Evaluation + Annotation <br />
 **2023-04-14:** Finish up previous steps <br />
-2023-04-18: Alignment <br />
-2023-04-19: Differential expression <br />
-2023-04-25: Synteny comparison <br />
-2023-04-26: Plasmid identification <br />
+2023-04-18: Synteny comparison <br />
+2023-04-19: RNA Alignment + Plasmid identification <br />
+2023-04-25: Differential expression <br />
+2023-04-26: Finish up analyses <br />
 **2023-05-02:** Mandatory analyses should be done <br />
-2023-05-10: SNP calling + Tn-analysis <br />
+2023-05-10: SNP calling + Tn-analysis + Antib. resistance <br />
 2023-05-11: Finish up results and conclusions <br />
 2023-05-16: Finish up results and conclusions <br />
 **2023-05-17:** Upload presentation slides and github-wiki <br />
 **2023-05-23:** Present results! <br />
 
 ### Data management plan
+NB! Kursive is symbolic links
 - 000-Data
      - README.txt
      - Raw_Genomics_data
@@ -62,11 +50,28 @@ Aim: The aim of this project is to perform whole genom sequencing, RNA sequencin
        - *Tn-Seq_BHI*
        - *Tn-Seq_HSerum*
        - *Tn-Seq_Serum*
-- 001-Intermittent_files
+- 001-Analyses
+     - README.txt 
      - Genomics_analyses
+       - README.txt 
+       - Quality_check_DNA_data
+       - Assemblies
+         - PacBio
+         - Nanopore
+         - Nanopore_and_Illumina
+       - Evaluations
+         - Quast_results
+         - Synteny_results 
+       - Annotation
+       - SNP_calling
+       - Antibiotic_resistance
      - RNA-seq_analyses
+       - README.txt 
+       - Quality_check_RNA_data
+       - Mapping
+       - Annotation
+       - Differential_analysis
      - Tn-seq_analyses
-- 002-Results
-     - Genomics_analyses
-     - RNA-seq_analyses
-     - Tn-seq_analyses
+       - README.txt 
+       - Essential_gene_analysis 
+
