@@ -5,7 +5,7 @@ Project for the course Genome Analysis (spring 2023) at Uppsala University.
 ### Overview of data
 Aim: The aim of this project is to perform whole genom sequencing, RNA sequencing and transposon sequencing on the E. faecium E745 bacterium to investigate which mechnisms are important for surviving and growing in human blood vessels. 
 
-| Sample  | Treatment  | Data type | Tool |
+| Sample  | Growth medium  | Data type | Tool |
 | ------------- | ------------- | ------------- | ------------- |
 | E. faecium E745  | NA  | WGS  | Illumina HiSeq 100 bp paired-end. |
 | E. faecium E745  | NA  | WGS  | Pacific Biosciences RS II SMRT technology  |
@@ -27,7 +27,7 @@ Aim: The aim of this project is to perform whole genom sequencing, RNA sequencin
 | Assembly evaluation of Canu  | Quast  | 2h  |
 | Assembly evaluation of Spades  | Quast  | 2h  |
 | Annotation  | Prokka  | 2h  |
-| Alignment  | BWA-MEM  | 4h  |
+| Alignment  | BWA  | 4h  |
 | Differential Expression  | Htseq  | 15h  |
 | Find plasmids in NCBI Genbank database | Blastn | 2h |
 | Essential genes, Tn-seq analysis | Transit | 6h |
