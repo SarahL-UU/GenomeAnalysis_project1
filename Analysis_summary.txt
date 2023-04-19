@@ -1,2 +1,18 @@
-### Analysis summary ###
+#Analysis summary
+
+## First QC check of all data
+### Genomics data
+**PacBio**
+
+**Illumina**
+
+**Nanopore**
+
+### Transcriptomics data
+**RNA-seq**
+
+**Tn-seq**
+
+## Trimming of Illumina files
+
 
