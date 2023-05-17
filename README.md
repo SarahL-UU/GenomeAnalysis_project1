@@ -37,41 +37,52 @@ Aim: The aim of this project is to perform whole genom sequencing, RNA sequencin
 **2023-05-23:** Present results! <br />
 
 ### Data management plan
-NB! Kursive is symbolic links
-- 000-Data
-     - README.txt
-     - Raw_Genomics_data
-       - *Illumina*
-       - *Nanopore*
-       - *PacBio* 
-     - Raw_Transcriptomics_data
-       - *RNA-Seq_BH*
-       - *RNA-Seq_Serum*
-       - *Tn-Seq_BHI*
-       - *Tn-Seq_HSerum*
-       - *Tn-Seq_Serum*
-- 001-Analyses
-     - README.txt 
-     - Genomics_analyses
-       - README.txt 
-       - Quality_check_DNA_data
-       - Assemblies
-         - PacBio
-         - Nanopore
-         - Nanopore_and_Illumina
-       - Evaluations
-         - Quast_results
-         - Synteny_results 
-       - Annotation
-       - SNP_calling
-       - Antibiotic_resistance
-     - RNA-seq_analyses
-       - README.txt 
-       - Quality_check_RNA_data
-       - Mapping
-       - Annotation
-       - Differential_analysis
-     - Tn-seq_analyses
-       - README.txt 
-       - Essential_gene_analysis 
+NOTE! All fastq files in the 000-Data folder are symbolic links to save on disk space
 
+/home/sarahl/GenomeAnalysis_project1/000-Data
+├── Genomics_data
+│   ├── Illumina
+│   ├── Nanopore
+│   └── PacBio
+└── Transcriptomics_data
+    ├── RNA-Seq_BH
+    ├── RNA-Seq_Serum
+    │   └── untrimmed -> /proj/genomeanalysis2023/Genome_Analysis/1_Zhang_2017/transcriptomics_data/RNA-Seq_Serum/untrimmed
+    ├── Tn-Seq_BHI
+    ├── Tn-Seq_HSerum
+    └── Tn-Seq_Serum
+    
+/home/sarahl/GenomeAnalysis_project1/001-Analyses
+├── Genomic_analyses
+│   ├── Annotation
+│   │   └── PacBio
+│   ├── Assemblies
+│   │   ├── Nanopore_and_Illumina
+│   │   └── PacBio
+│   │       ├── Plasmids
+│   ├── MUMmer
+│   ├── Quality_check_DNA_data
+│   │   ├── Illumina
+│   │   │   ├── Post-trimming
+│   │   │   └── Pre-trimming
+│   ├── Quality_check_Quast
+│   │   ├── Nanopore_and_Illumina
+│   │   ├── PacBio
+│   ├── Synteny
+│   │   └── PacBio
+│   └── Trimmed_Illumina_Fastq
+└── Transcriptomics_analyses
+    ├── Differential_expression
+    │   ├── RNA-Seq_BH
+    │   └── RNA-Seq_Serum
+    ├── Quality_check_RNA_data
+    │   ├── RNA-Seq_BH
+    │   │   └── Post_trim
+    │   ├── RNA-Seq_Serum
+    │   │   └── Post_trim
+    │   ├── Tn-Seq_BHI
+    │   ├── Tn-Seq_HSerum
+    │   └── Tn-Seq_Serum
+    └── Trimmed_Illumina_RNA
+        ├── RNA-Seq_BH
+        └── RNA-Seq_Serum
