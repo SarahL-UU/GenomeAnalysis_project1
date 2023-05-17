@@ -39,50 +39,50 @@ Aim: The aim of this project is to perform whole genom sequencing, RNA sequencin
 ### Data management plan
 NOTE! All fastq files in the 000-Data folder are symbolic links to save on disk space
 
-/home/sarahl/GenomeAnalysis_project1/000-Data
-├── Genomics_data
-│   ├── Illumina
-│   ├── Nanopore
-│   └── PacBio
-└── Transcriptomics_data
-    ├── RNA-Seq_BH
-    ├── RNA-Seq_Serum
-    │   └── untrimmed -> /proj/genomeanalysis2023/Genome_Analysis/1_Zhang_2017/transcriptomics_data/RNA-Seq_Serum/untrimmed
-    ├── Tn-Seq_BHI
-    ├── Tn-Seq_HSerum
-    └── Tn-Seq_Serum
+/home/sarahl/GenomeAnalysis_project1/000-Data <br />
+├── Genomics_data<br />
+│   ├── Illumina<br />
+│   ├── Nanopore<br />
+│   └── PacBio<br />
+└── Transcriptomics_data<br />
+    ├── RNA-Seq_BH<br />
+    ├── RNA-Seq_Serum<br />
+    │   └── untrimmed -> /proj/genomeanalysis2023/Genome_Analysis/1_Zhang_2017/transcriptomics_data/RNA-Seq_Serum/untrimmed<br />
+    ├── Tn-Seq_BHI<br />
+    ├── Tn-Seq_HSerum<br />
+    └── Tn-Seq_Serum<br />
     
-/home/sarahl/GenomeAnalysis_project1/001-Analyses
-├── Genomic_analyses
-│   ├── Annotation
-│   │   └── PacBio
-│   ├── Assemblies
-│   │   ├── Nanopore_and_Illumina
-│   │   └── PacBio
-│   │       ├── Plasmids
-│   ├── MUMmer
-│   ├── Quality_check_DNA_data
-│   │   ├── Illumina
-│   │   │   ├── Post-trimming
-│   │   │   └── Pre-trimming
-│   ├── Quality_check_Quast
-│   │   ├── Nanopore_and_Illumina
-│   │   ├── PacBio
-│   ├── Synteny
-│   │   └── PacBio
-│   └── Trimmed_Illumina_Fastq
-└── Transcriptomics_analyses
-    ├── Differential_expression
-    │   ├── RNA-Seq_BH
-    │   └── RNA-Seq_Serum
-    ├── Quality_check_RNA_data
-    │   ├── RNA-Seq_BH
-    │   │   └── Post_trim
-    │   ├── RNA-Seq_Serum
-    │   │   └── Post_trim
-    │   ├── Tn-Seq_BHI
-    │   ├── Tn-Seq_HSerum
-    │   └── Tn-Seq_Serum
-    └── Trimmed_Illumina_RNA
-        ├── RNA-Seq_BH
-        └── RNA-Seq_Serum
+/home/sarahl/GenomeAnalysis_project1/001-Analyses <br />
+├── Genomic_analyses <br />
+│   ├── Annotation<br />
+│   │   └── PacBio<br />
+│   ├── Assemblies<br />
+│   │   ├── Nanopore_and_Illumina<br />
+│   │   └── PacBio<br />
+│   │       └── Plasmids<br />
+│   ├── MUMmer<br />
+│   ├── Quality_check_DNA_data<br />
+│   │   ├── Illumina<br />
+│   │   │   ├── Post-trimming<br />
+│   │   │   └── Pre-trimming<br />
+│   ├── Quality_check_Quast<br />
+│   │   ├── Nanopore_and_Illumina<br />
+│   │   ├── PacBio<br />
+│   ├── Synteny<br />
+│   │   └── PacBio<br />
+│   └── Trimmed_Illumina_Fastq<br />
+└── Transcriptomics_analyses<br />
+    ├── Differential_expression<br />
+    │   ├── RNA-Seq_BH<br />
+    │   └── RNA-Seq_Serum<br />
+    ├── Quality_check_RNA_data<br />
+    │   ├── RNA-Seq_BH<br />
+    │   │   └── Post_trim<br />
+    │   ├── RNA-Seq_Serum<br />
+    │   │   └── Post_trim<br />
+    │   ├── Tn-Seq_BHI<br />
+    │   ├── Tn-Seq_HSerum<br />
+    │   └── Tn-Seq_Serum<br />
+    └── Trimmed_Illumina_RNA<br />
+        ├── RNA-Seq_BH<br />
+        └── RNA-Seq_Serum<br />
