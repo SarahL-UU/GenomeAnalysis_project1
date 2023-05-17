@@ -1,0 +1,120 @@
+#Genome analysis questions from student manual
+
+##To think about: 
+###What is the structure of a FASTQ file? 
+A Fastq file contains information on each sequence in the form of four lines per sequence. The first line contains a sequence identifier and begins with a ‘@’. The second line contains the raw sequence. The third line is a separator in the form of a ‘+’. The last line contains the quality of each base in the sequence denoted by an ASCII character. 
+How is the quality of the data stored in the FASTQ files? How are paired reads identified? 
+As mentioned above the quality for each base is stored in the fourth line in the form of an ASCII character and is Phred +33 encoded. 
+Paired reads are identified using the unique identifier on the first row for each sequence.  The reads are often separated so that one fastq-file includes a ‘1’ and the one with the paired reads a ‘2’. 
+###How is the quality of your data? 
+The quality of the Illumina data was very good, the average quality was 38 for both fastq files and nothing was flagged when running FastQC.
+###What can generate the issues you observe in your data? Can these cause any problems during subsequent analyses? 
+There were no issues in this dataset for the Illumina reads so there should not be any issues in subsequent analyses. 
+Issues (in general) that can occur is that the base quality is low, read lengths vary, or that there are a lot of PCR duplicates. These can be caused by poor quality input material and/or highly repetitive or GC rich regions. These issues will of course affect subsequent analyses in a negative way. 
+
+##To think about: 
+###How many reads have been discarded after trimming? 
+According to FastQC the number of sequences before trimming was: 1666667 and after trimming was: 1595392.
+So 71275 reads were discarded.
+###How can this affect your future analyses and results? 
+Approximately 4% of the reads were discarded so there are still plenty of reads left to use in the analysis. Trimming the reads ensures that the base quality is high and that there are no adapter sequences left. So the end results will be better. 
+###How is the quality of your data after trimming? 
+The quality is still very good with a score of 38 on average. One thing to note is that FastQC flagged the “Sequence Length Distribution” which probably is the result of some reads being trimmed. Before trimming all the reads were 90bp long, after trimming they were between 36-90 bp but only a few thousand reads were below 90bp. 
+###What do the LEADING, TRAILING and SLIDINGWINDOW options do? 
+LEADING and TRAILING cuts bases of at the beginning or end of the reads if they are below the given threshold. SLIDINGWINDOW starts at the 5’ end and only trims the read if the average quality within the window is below the given threshold.
+
+##To think about: 
+###What information can you get from the plots and reports given by the assembler (if you get any)? 
+I did not get any plots trom Canu or SPADes, but they say how many reads were processed, discarded, trimmed etc.
+###What intermediate steps generate informative output about the assembly? 
+The trimming, read correcting and the assembly
+###How many contigs do you expect? How many do you obtain? 
+In a perfect world I expected to find one very big contig containing the linear bacterial chromosome and some plasmids (6 plasmids according to the paper). Using the PacBio reads I got 10 contigs and when scaffolding the illumine reads with either PacBio or Nanopore reads I approximately 300 contigs for each assembly. 
+###What is the difference between a ‘contig’ and a ‘unitig’? 
+A contig is a contiguous sequence of overlapping DNA fragments mapped together so that there are no gaps in that region of the genome. A unitig is a variation of a contig that represents a unique, non-overlapping portion of the genome. It is derived by resolving repetitive regions in the genome assembly process. 
+###What is the difference between a ‘contig’ and a ‘scaffold’? 
+A contig is a contiguous sequence, a scaffold on the other hand is made up of several contigs which have been “connected” using long reads as a guide. 
+###What are the k-mers? What k-mer(s) should you use? What are the problems and benefits of choosing a small kmer? And a big k-mer? 
+A k-mer is a substring of length k of a sequence, which is then used to find a matching sequence on a different read. When a match is found the overlap will be extended to see if the reads belong together. Choosing the optimal k-mer size can require some trial and error and some software such as Spades tries multiple different sizes for the assembly. A smaller kmer size will result in more hits with other reads but this will increase computation time a lot. A larger kmer size will lead to faster computations but might miss matches.
+###Some assemblers can include a read-correction step before doing the assembly. What is this step doing? 
+The idea is to compare overlapping reads and identify bases or regions where the majority of reads disagree with a particular read, indicating a potential error. By analyzing the consensus of multiple reads, the correction algorithms can infer the most likely correct sequence at each position.
+###How different do different assemblers perform for the same data? 
+Different algorithms might results in 
+Can you see any other letter apart from AGTC in your assembly? If so, what are those? 
+No, apart from the name of the contig etc, but my assemblies only consists on ATGCs. I’m assuming that if there were any low quality bases they might have shown in the sequence as N.
+
+To think about: 
+###What do measures like N50, N90, etc. mean? How can they help you evaluate the quality of your assembly? Which measure is the best to summarize the quality of the assembly (N50, number of ORFs, completeness, total size, longest contig ...) 
+They inform you on how good you assembly is by giving something to compare different assemblers with. Which one is best depents on the goal. If the goal is a complete genome then completness is the most important measure for example. 
+###How does your assembly compare with the reference assembly? What can have caused the differences? 
+Overall, I think that my assembly is quite good since the largest contig matches their largest contig. We also both found 6 plasmids. I only used the Pacbio reads in my assembly and did not scaffold it with the illumina as they did in the article. We also used different assemblers (Celera vs Canu) and maybe different parameters which also effect the end product. 
+###Why do you think your assembly is better/worse than the public one? 
+I think it is difficult to tell exactly which one is better/worse. 
+###When running metaQuast for a metagenome, it may happen that very few contigs map back to the reference genomes. Is this expected? Does that mean your assembly is bad? Why? 
+Not applicable to my project
+
+##To think about: 
+###What types of features are detected by the software? Which ones are more reliable a priori? 
+HtSeq detected mostly CDS (of which many were hypothetical proteins), tRNA, rRNA. I think the tRNA and rRNA are the most reliable since they are very conserved and therefor should be easy to predict. 
+###How many features of each kind are detected in your contigs? Do you detect the same number of features as the authors? How do they differ? 
+3124 CDS, of which 1373 were hypothetical proteins. In the paper they discovered 3095 proteins but they do not specify any more.
+###Why is it more difficult to do the functional annotation in eukaryotic genomes? 
+Eucaryotic genomes are very large compared to a procaryote genome since it has a lot of non-coding parts. But it may be difficult for the software to correctly differentiate the coding parts from the non-coding parts as well as choosing the correct splice form since there are a lot of alternative splicing of genes. 
+###How many genes are annotated as ‘hypothetical protein’? Why is that so? How would you tackle that problem? 
+1373 genes in my contigs. Hypothetical proteins are not “proven” yet so you cannot with certainty claim that it is a real protein. You can do a homology search to see if there are any similar protein in another specie and guess that the hypothetical has a similar function, or you can go to the lab to do a knockout etc (functional studies) to prove that it is a real protein. 
+###How can you evaluate the quality of the obtained functional annotation?
+By comparing multiple software to see if they both predict the same proteins 
+###How comparable are the results obtained from two different structural annotation softwares? 
+For bacterial genomes I assume they would be quite comparable since it is a “easier” genome to analyze. It might be more difficult to compare annotation in eucaryote genomes.
+
+##To think about: 
+###How relevant is the output format that you choose? 
+It depends on if it will be used in a downstream analysis. In this case it was important that the output was in tabular form. 
+###How do the resulting hits vary when you change the minimum e-value? 
+The hits become fewer but in my case since I was blasting against the E.faecium genome only almost all hits had a very low e-value already.
+###How is the alignment score calculated? 
+The alignment score is computed by assigning a value to each aligned pair of letters and then summing these values over the length of the alignment.
+###How important is the number of threads when you blast against a database, or against a particular sequence? 
+I guess is depends on if you are blasting a whole genome against NCBIs entire nucleotide database or if it is a short sequence in a certain species. For the latter case the number of threads needed should be 1, but in the first case is can speed up the analysis is multiple threads are used so that you can utilize parallelization. 
+
+##To think about: 
+###What percentage of your reads map back to your contigs? Why do you think that is? 
+###For the RNA mapping approximately 98% of all reads for the samples mapped to my contigs. Procaryotic genomes are very condensed and effective and without introns so the DNA and RNA will be very similar. 
+###What potential issues can cause mRNA reads not to map properly to genes in the chromosome? Do you expect this to differ between prokaryotic and eukaryotic projects? 
+
+###What percentage of reads map to genes? 
+###How many reads do not map to genes? What does that mean? How does that relate to the type of sequencing data you are mapping? 
+###What do you interpret from your read coverage differences across the genome? 
+###Do you see big differences between replicates? 
+No there is very little difference between the replicates. 
+
+##To think about: 
+###What is the structure of a SAM file, and how does it relate to a BAM file? 
+SAM stands for Sequence Alignment/Map format. It is a TAB-delimited text format consisting of a header section, which is optional, and an alignment section. The BAM file is just the binary version of the file. It takes up less space but humans cannot read it.
+###What is the structure of vcf and bcf files? 
+A header with information on the analysis. 
+Then it is tab separated with the position of the SNP, ALT, REF, quality, and a lot of other infotmation. One line per SNP. 
+###How many SNPs and INDELs do you get? 
+###ow is the quality of those variants? 
+###What is the difference between the variant quality, the mapping quality and the fastq quality? 
+###How are these variants distributed along the genome? 
+
+##To think about: 
+###What is the distribution of the counts per gene? Are most genes expressed? How many counts would indicate that a gene is expressed? 
+###In the metagenomics project, the data doesn’t offer enough statistical power for a differential expression analysis. Why not? What can you still tell from the data only from the read counts? 
+
+
+##To think about: 
+###If your expression results differ from those in the published article, why could it be? 
+Most likely because we used different programs and parameters
+###How do the different samples and replicates cluster together? 
+The samples cluster based on treatment. The expression levels look like they cluster based on similar expression levels.
+###What effect and implications has the p-value selection in the expression results? 
+The lower the cutoff the less fasle positives.
+###What is the q-value and how does it differ from the p-value? Which one should you use to determine if the result is statistically significant? 
+###Do you need a normalization step? What would you normalize against? Does DESeq do it? 
+###What would you do to increase the statistical power of your expression analysis? 
+Use more replicates!
+###In the metagenomics project, the data doesn’t offer enough statistical power for a differential expression analysis. Why not? What can you still tell from the data? 
+
+
