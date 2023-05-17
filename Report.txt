@@ -22,7 +22,7 @@ The Pacbio reads were assemblied using the long-reads assembler Canu which perfo
 Evaluation of the assembly was first performed using Quast and MUMmerplot. Images are avaliable in the Assembly evaluation folder. 
 
 ###Summary of Quast results
-| First Header  | PacBio | Nanopore+Illumina  | 
+|   | PacBio | Nanopore+Illumina  | 
 | ------------- | ------------- | ------------- | 
 | # contigs  | 10  | 309  |
 | GC%  | 37.79  | 37.64 |
@@ -49,6 +49,23 @@ PROKKA annotated 3124 CDS, of which 1373 were hypothetical proteins. It also ann
 The number of CDS is very similar to what they found in the paper (3095 predicted coding sequences).
 
 ##Plasmid identification
+To identify which of my contigs that are plasmids I extracted them from the assembly fasta file  and then used my blast database of the E.faecium NCBI reference to see where the contigs aligns.
+
+(Contig 1 is the chromosome and is therefor not includen in the table below, contigs that only covered a small portion of a plasmid were also excluded from the table)
+| Contig  | Plasmid | NCBI reference  | 
+| ------------- | ------------- | ------------- | 
+| 2  | pl1 | NZ_CP014530.1 |
+| 3 | pl5  | NZ_CP014534.1  |
+| 5 | pl2 | NZ_CP014531.1   | 
+| 6  | pl5  | NZ_CP014534.1  |
+| 7 | pl4  | NZ_CP014533.1 |
+| 9 | pl6  | NZ_CP014535.1  |
+| 10 | pl3 | NZ_CP014532.1  | 
+
+I am not able to verify this but my guess is that contig 3 and 6 belong to the same plasmid but were not able to overlap. Contig 3 and 6 combined would cover approximately 45000bp out of 55000bp.
+
+##Finding resistance genes
+To find in any on the contigs contained any resistance genes I downloaded them to my computer and ran them against the Comprehensive Antibiotic Resistance Database (https://card.mcmaster.ca/home). The results show some resistance genes for Vancomycin on contig 5 (plasmid 2, same as in the paper). Contrary to what they find in the paper I did not find any resistance for trimethoprim and macrolide.
 
 #RNA Analyses
 ##FastQC
@@ -58,8 +75,28 @@ FastQC of the Illumina RNA-seq reads showed that this dataset was not as good as
 Trimmomatic was used as previously described to trim the reads.
 
 ##RNA mapping
-The RNA-seq reads were mapped using BWA-MEM agains the Pacbio assembly and them converted into bam.files using samtools. I also used samtools flagstat so confirm that the reads mapped, all 
+The RNA-seq reads were mapped using BWA-MEM agains the Pacbio assembly and them converted into bam.files using samtools. I also used samtools flagstat so confirm that the reads mapped, all samples had >98% of reads map to the assembly.
 
+##Feature counting 
+Features were counted using the BAM files generated from the RNA mapping in combination with the PROKKA annotation file using the software Htseq. 
+The PROKKA .gff file had to be altered a bit before it could be used in Htseq. 
+The removal of the fasta sequence part of the file was removed using this command: 
+head -3241 PROKKA_04132023.gff > PROKKA_04132023.clean.gff
+
+The "clean" file was used in futher analysis.
+
+##Differential analysis
+The feature files from Htseq were copied to my local computer and uploaded into Rstudio in preparation for the differential expression analysis. The files were combined into a single file and a metadata file was created. The metadata file contains information on which samples belong to which treatment. 
+
+A PCA plot was created to confirm that there had been no sample mix-up. 
+
+Differential expression analysis was then run using the DESeq2 software in Rstudio. 
+In the paper they found 860 genes using a cutoff of q <0.001 and a fold change in expression of >2, in my analysis I only found 536 which is a big difference. 
+
+I then created a heatmap that shows the top 20 differentially expressed genes, which were the following, in decending order:
+purL, dppE, adhE, hypothetical protein, folT_1, argS, hypothetical protein, pbp, tkt, tuf_1, rplQ, rplL, pgk, eno, ptsI, rplJ, secY, gap_1, fba, fus.
+
+If I compare my top 20 with what they found in the paper I see that purL is the most differential gene for both of us. dppE is at the 14th place in their analysis and 2nd in mine. In the paper they find multiple if the pur-genes in the top where as I only found one. Since purL has the biggest difference between E.faecium grown in serum compared to BH I can agree with their conclusion that purine biosynthesis is important for the survival of the bacteria in serum.  
 
 
 
