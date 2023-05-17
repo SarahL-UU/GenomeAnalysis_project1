@@ -1,0 +1,69 @@
+#Goal:
+The goal of this project is to perform a de novo DNA assembly using Pacbio reads and a combination of Nanopore and Illumina reads. The best assembly will then be used as a reference for mapping of the RNA-seq reads. Additional analyses will include evaluation of the assemblies, plasmid identification, SNP-calling, identifying antibiotic resistance and differential expression analysis. 
+
+#General data management
+- Symbolic links were created instead of copying the raw fastq-files as to not take up extra space.
+- Large intermittent files such as SAM files were created in the $SNIC_TMP directory which is a temporary storage which deletes the files when the job is finished. This is so that they do not take up space in my project directory.
+
+#Genomic Analyses: 
+##FastQC pre-trim
+FastQC was perform on the paired-end short-read illumina FastQ files. The results looked very good and nothing was flagged by the program indicating that the reads are of high quality. 
+
+##Trimmomatic
+Trimmomatic was performed on the illumina reads with the default parameters given in the Trimmomatic manual except for that the quality threshold for LEADING and TRAILING was increased.
+
+##FastQC post-trim
+Another FasQC was performed on the trimmed data to evaluate the reads. The data still looks very good but the read lenght distribution was slightly decreased which is due to that some bases have been trimmed on those reads. 
+
+##Assemblies
+The Pacbio reads were assemblied using the long-reads assembler Canu which performs the assembly in three steps; correction, trimming and assembly. Nanopore and Illumina reads were assembled using SPAdes which creates a assembly with the illumina reads and then scaffolds them with the long Nanopore reads. 
+
+##Assembly evaluation
+Evaluation of the assembly was first performed using Quast and MUMmerplot. Images are avaliable in the Assembly evaluation folder. 
+
+###Summary of Quast results
+| First Header  | PacBio | Nanopore+Illumina  | 
+| ------------- | ------------- | ------------- | 
+| # contigs  | 10  | 309  |
+| GC%  | 37.79  | 37.64 |
+| N50  | 2775138  | 81038  |
+| L50  | 1  | 11  | 
+
+Here we see that the PacBio assembly apperas to be a lot better than the Nanopore+Illumina based on that the N50 for PacBio has the same size as the entire E.faecium genome, Nanopore+Illumina on the other hand has a much lower N50. We also se that the Nanopore+Illumina assembly has a lot of contigs (although only 66 of them larger than 1000bp so there seems to be a lot of reads that were hard to overlap into larger contigs). 
+
+###Summary of MUMmer results
+Here we see that the Pacbio assembly aligns much better to the reference from NCBI (containing the bacterial genome and all six plasmids). The Nanopore+Illumina assembly on the other hand do not align very good to the reference. 
+
+##Synteny
+Synteny was investigated using Blast against a nucleotide database that I created using the NCBI reference mentioned above used in MUMmer. The outformat chosen was tabular format so that it later can be visualized in ACT. The blast output shows that contig1 alignes with the chromosome of E.faecium (NZ_CP014529.1), the first hit has a lenght of 2126832bp and the second hit is 648402bp and both have an E-value of 0, these two hits cover the whole chromosome.
+
+##Visualization using ACT
+Visualization was performed using the artemis tool ACT. The program require three different files; the NCBI reference, the blast output and my assembled genome. The program was called using the following command after loading the modules bioinfo-tools and artemis:
+/sw/bioinfo/artemis/16.0.0/rackham/act /home/sarahl/GenomeAnalysis_project1/scripts/Blast/E_faecium_E745_complete.fasta /home/sarahl/GenomeAnalysis_project1/001-Analyses/Genomic_analyses/Synteny/PacBio/Pacbio_results.out /home/sarahl/GenomeAnalysis_project1/001-Analyses/Genomic_analyses/Assemblies/PacBio/E_faecium_assembly_pacbio.contigs.fasta
+
+The results were filtered (changed the score cutoff to approx 10000bp) a bit so improve the understading of that is aligning where since the image without the cutoff was very messy. In the image we can see that the my assembly and the reference align very well but that some things are in a different order, for example in the beginning (to the left) of the image.
+
+##Annotation
+Annotation was performed using PROKKA. 
+PROKKA annotated 3124 CDS, of which 1373 were hypothetical proteins. It also annotated different tRNAs and rRNAs. 
+The number of CDS is very similar to what they found in the paper (3095 predicted coding sequences).
+
+##Plasmid identification
+
+#RNA Analyses
+##FastQC
+FastQC of the Illumina RNA-seq reads showed that this dataset was not as good as for the DNA-dataset. The average base quality was very good, averaging at 38. Other things such as sequence lenght distribution, the number of duplicates and overrepresented sequences were flagged as not optimal. Especiallt the duplicates and overrepresented sequences can negativly impact the downstream analyses such as the differential analysis. 
+
+##Trimming of the reads
+Trimmomatic was used as previously described to trim the reads.
+
+##RNA mapping
+The RNA-seq reads were mapped using BWA-MEM agains the Pacbio assembly and them converted into bam.files using samtools. I also used samtools flagstat so confirm that the reads mapped, all 
+
+
+
+
+
+
+
+
